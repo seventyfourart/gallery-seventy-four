@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gallery Seventy Four — Anuradha</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Cormorant+SC:wght@300;400&family=Jost:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #1c1a18;
+      --paper: #f5f0e8;
+      --warm: #c8a96e;
+      --muted: #8a8070;
+      --light: #ede8dc;
+      --accent: #7a4f3a;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--paper);
+      color: var(--ink);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 18px;
+      line-height: 1.75;
+      overflow-x: hidden;
+    }
+
+    /* Grain overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 100;
+      opacity: 0.4;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 50;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.4rem 3rem;
+      background: rgba(245, 240, 232, 0.88);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(200,169,110,0.25);
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant SC', serif;
+      font-size: 1rem;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 300;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding-top: 80px;
+    }
+
+    .hero-text {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 6rem 4rem 6rem 5rem;
+    }
+
+    .hero-eyebrow {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--warm);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant SC', serif;
+      font-size: clamp(3rem, 5vw, 5.5rem);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--ink);
+      margin-bottom: 1rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1.15rem;
+      font-style: italic;
+      color: var(--muted);
+      font-weight: 300;
+      margin-bottom: 3rem;
+      letter-spacing: 0.02em;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid var(--warm);
+      padding-bottom: 0.25rem;
+      width: fit-content;
+      transition: gap 0.3s;
+    }
+    .hero-cta:hover { gap: 1.25rem; }
+    .hero-cta::after { content: '→'; }
+
+    .hero-image {
+      position: relative;
+      overflow: hidden;
+      background: var(--light);
+    }
+
+    .hero-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    .hero-image img.loaded { opacity: 1; }
+
+    .hero-image-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      color: var(--muted);
+      font-family: 'Jost', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .hero-image-placeholder svg {
+      width: 48px;
+      height: 48px;
+      stroke: var(--warm);
+      fill: none;
+      stroke-width: 1;
+    }
+
+    .hero-image-placeholder .placeholder-note {
+      color: var(--warm);
+      font-style: italic;
+      text-transform: none;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      max-width: 200px;
+    }
+
+    /* ── DIVIDER ── */
+    .ornament {
+      text-align: center;
+      color: var(--warm);
+      font-size: 1.2rem;
+      letter-spacing: 0.5em;
+      padding: 1rem 0;
+      opacity: 0.6;
+    }
+
+    /* ── ABOUT ── */
+    .about {
+      padding: 8rem 0;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 6rem;
+      padding-left: 5rem;
+      padding-right: 5rem;
+    }
+
+    .about-label {
+      font-family: 'Cormorant SC', serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      color: var(--warm);
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      height: fit-content;
+      align-self: start;
+      padding-top: 0.5rem;
+    }
+
+    .about-content h2 {
+      font-family: 'Cormorant SC', serif;
+      font-size: clamp(2rem, 3vw, 3rem);
+      font-weight: 300;
+      line-height: 1.2;
+      margin-bottom: 2.5rem;
+      color: var(--ink);
+    }
+
+    .about-content p {
+      font-size: 1.05rem;
+      color: #3a3530;
+      margin-bottom: 1.5rem;
+      font-weight: 300;
+    }
+
+    .about-content p:first-of-type::first-letter {
+      font-size: 4rem;
+      font-family: 'Cormorant SC', serif;
+      font-weight: 400;
+      float: left;
+      line-height: 0.75;
+      padding-right: 0.15em;
+      padding-top: 0.1em;
+      color: var(--accent);
+    }
+
+    /* ── SERIES ── */
+    .series {
+      background: var(--light);
+      padding: 8rem 5rem;
+      border-top: 1px solid rgba(200,169,110,0.2);
+      border-bottom: 1px solid rgba(200,169,110,0.2);
+    }
+
+    .series-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 4rem;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .series-header h2 {
+      font-family: 'Cormorant SC', serif;
+      font-size: clamp(1.8rem, 2.5vw, 2.5rem);
+      font-weight: 300;
+    }
+
+    .series-header span {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .series-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .series-card {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .series-img {
+      aspect-ratio: 3/4;
+      background: #e2dcd0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .series-img--landscape {
+      aspect-ratio: 4/3;
+    }
+
+    .series-img-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+    }
+
+    .series-img-placeholder svg {
+      width: 32px;
+      height: 32px;
+      stroke: var(--warm);
+      fill: none;
+      stroke-width: 1;
+      opacity: 0.5;
+    }
+
+    .series-card h3 {
+      font-family: 'Cormorant SC', serif;
+      font-size: 0.9rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      color: var(--ink);
+    }
+
+    .series-card p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-style: italic;
+      font-weight: 300;
+      line-height: 1.6;
+    }
+
+    /* ── SHOWS ── */
+    .shows {
+      padding: 8rem 5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .shows-header {
+      display: flex;
+      align-items: baseline;
+      gap: 2rem;
+      margin-bottom: 4rem;
+      border-bottom: 1px solid rgba(200,169,110,0.3);
+      padding-bottom: 1.5rem;
+    }
+
+    .shows-header h2 {
+      font-family: 'Cormorant SC', serif;
+      font-size: clamp(1.8rem, 2.5vw, 2.5rem);
+      font-weight: 300;
+    }
+
+    .shows-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .show-item {
+      display: grid;
+      grid-template-columns: 80px 1fr auto;
+      gap: 2rem;
+      align-items: baseline;
+      padding: 1.25rem 0;
+      border-bottom: 1px solid rgba(200,169,110,0.15);
+      transition: background 0.2s;
+    }
+
+    .show-year {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      color: var(--warm);
+      font-weight: 300;
+    }
+
+    .show-name {
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--ink);
+    }
+
+    .show-venue {
+      font-size: 0.82rem;
+      font-style: italic;
+      color: var(--muted);
+      text-align: right;
+    }
+
+    /* ── SUBSTACK ── */
+    .substack-band {
+      background: var(--ink);
+      padding: 6rem 5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      border-top: 1px solid rgba(200,169,110,0.15);
+    }
+
+    .substack-band-left h2 {
+      font-family: 'Cormorant SC', serif;
+      font-size: clamp(1.8rem, 2.5vw, 2.8rem);
+      font-weight: 300;
+      color: var(--paper);
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .substack-band-left p {
+      font-size: 1rem;
+      color: rgba(245,240,232,0.55);
+      font-style: italic;
+      font-weight: 300;
+      line-height: 1.8;
+    }
+
+    .substack-band-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 1.5rem;
+    }
+
+    .substack-band-right p {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.35);
+      text-align: right;
+      line-height: 2;
+    }
+
+    .substack-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink);
+      background: var(--warm);
+      text-decoration: none;
+      padding: 1rem 2.5rem;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .substack-btn:hover {
+      background: var(--paper);
+      color: var(--ink);
+    }
+
+    .substack-btn::after { content: '↗'; }
+
+    @media (max-width: 900px) {
+      .substack-band {
+        grid-template-columns: 1fr;
+        padding: 4rem 2rem;
+        gap: 2rem;
+      }
+      .substack-band-right { align-items: flex-start; }
+      .substack-band-right p { text-align: left; }
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: end;
+    }
+
+    .footer-left h2 {
+      font-family: 'Cormorant SC', serif;
+      font-size: 2.5rem;
+      font-weight: 300;
+      margin-bottom: 1rem;
+      color: var(--paper);
+    }
+
+    .footer-left p {
+      font-size: 0.9rem;
+      color: rgba(245,240,232,0.5);
+      font-style: italic;
+    }
+
+    .footer-right {
+      text-align: right;
+    }
+
+    .footer-right a {
+      display: block;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--warm);
+      text-decoration: none;
+      margin-bottom: 0.75rem;
+      transition: color 0.3s;
+    }
+
+    .footer-right a:hover { color: var(--paper); }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(200,169,110,0.2);
+      padding: 1.5rem 5rem;
+      background: var(--ink);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-bottom p {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      color: rgba(245,240,232,0.3);
+      text-transform: uppercase;
+    }
+
+    /* ── INSTAGRAM ── */
+    .instagram {
+      padding: 8rem 5rem;
+      background: var(--paper);
+      border-top: 1px solid rgba(200,169,110,0.2);
+    }
+
+    .instagram-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      max-width: 1200px;
+      margin: 0 auto 3.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(200,169,110,0.3);
+    }
+
+    .instagram-header h2 {
+      font-family: 'Cormorant SC', serif;
+      font-size: clamp(1.8rem, 2.5vw, 2.5rem);
+      font-weight: 300;
+    }
+
+    .instagram-handle {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--warm);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .instagram-handle:hover { color: var(--accent); }
+
+    .instagram-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 0.6rem;
+      max-width: 1200px;
+      margin: 0 auto 3rem;
+    }
+
+    .ig-post {
+      aspect-ratio: 1;
+      background: var(--light);
+      overflow: hidden;
+      position: relative;
+      display: block;
+      text-decoration: none;
+    }
+
+    .ig-post img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease, filter 0.5s ease;
+    }
+
+    .ig-post:hover img {
+      transform: scale(1.06);
+      filter: brightness(0.85);
+    }
+
+    .ig-post-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(28,26,24,0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.4s;
+    }
+
+    .ig-post:hover .ig-post-overlay {
+      background: rgba(28,26,24,0.35);
+    }
+
+    .ig-post-overlay svg {
+      width: 24px;
+      height: 24px;
+      stroke: white;
+      fill: none;
+      stroke-width: 1.5;
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+
+    .ig-post:hover .ig-post-overlay svg { opacity: 1; }
+
+    /* Placeholder tile for empty slots */
+    .ig-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+    }
+
+    .ig-placeholder svg {
+      width: 24px;
+      height: 24px;
+      stroke: var(--warm);
+      fill: none;
+      stroke-width: 1;
+      opacity: 0.4;
+    }
+
+    .ig-placeholder span {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.55rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      opacity: 0.5;
+    }
+
+    .instagram-cta {
+      text-align: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .instagram-cta a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-decoration: none;
+      border: 1px solid var(--warm);
+      padding: 0.9rem 2.5rem;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .instagram-cta a:hover {
+      background: var(--ink);
+      color: var(--paper);
+      border-color: var(--ink);
+    }
+
+    /* Behold widget container */
+    .behold-container {
+      max-width: 1200px;
+      margin: 0 auto 3rem;
+      display: block;
+    }
+
+    .behold-setup-note {
+      border: 1px dashed var(--warm);
+      padding: 3rem 2rem;
+      text-align: center;
+      color: var(--muted);
+      font-family: 'Jost', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      line-height: 2.2;
+    }
+
+    .behold-setup-note strong {
+      color: var(--accent);
+      display: block;
+      font-size: 0.85rem;
+      margin-bottom: 0.5rem;
+      font-family: 'Cormorant SC', serif;
+      text-transform: none;
+      letter-spacing: 0.05em;
+    }
+
+    .behold-setup-note a {
+      color: var(--warm);
+    }
+
+    @media (max-width: 900px) {
+      .instagram { padding: 4rem 2rem; }
+      .instagram-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    /* ── ANIMATIONS ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1.2rem 1.5rem; }
+      .nav-links { gap: 1.5rem; }
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-text { padding: 6rem 2rem 3rem; }
+      .hero-image { height: 60vw; }
+      .about { grid-template-columns: 1fr; gap: 2rem; padding: 4rem 2rem; }
+      .about-label { writing-mode: horizontal-tb; transform: none; }
+      .series { padding: 4rem 2rem; }
+      .series-grid { grid-template-columns: 1fr 1fr; }
+      .shows { padding: 4rem 2rem; }
+      .show-item { grid-template-columns: 60px 1fr; }
+      .show-venue { display: none; }
+      footer { grid-template-columns: 1fr; padding: 3rem 2rem; }
+      .footer-right { text-align: left; }
+      .footer-bottom { padding: 1rem 2rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">Gallery Seventy Four</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#shows">Shows</a></li>
+      <li><a href="#instagram">Instagram</a></li>
+      <li><a href="#journal">Journal</a></li>
+      <li><a href="https://payhip.com/SeventyFourArt" target="_blank">For Sale</a></li>
+      <li><a href="mailto:seventyfourart@gmail.com">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-text">
+      <p class="hero-eyebrow">Gladwyne, PA</p>
+      <h1 class="hero-title">Artistic<br>Journeys</h1>
+      <p class="hero-subtitle">Watercolor · Quilting · Urban Sketches</p>
+      <a href="#about" class="hero-cta">Discover the work</a>
+    </div>
+    <div class="hero-image">
+      <src="images/hero.jpg">
+      <img
+        id="heroImg"
+        src="images/hero.jpg"
+        alt="Anuradha — Gallery Seventy Four"
+        onload="this.classList.add('loaded')"
+        onerror="this.style.display='none'"
+      />
+      <div class="hero-image-placeholder" id="heroPlaceholder">
+        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="8" width="40" height="32" rx="2"/>
+          <circle cx="17" cy="20" r="4"/>
+          <path d="M4 32 l10-8 8 6 8-10 14 12"/>
+        </svg>
+        <span>Your image here</span>
+        <span class="placeholder-note">Replace with hero.jpg in your images folder</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div>
+      <p class="about-label">About</p>
+    </div>
+    <div class="about-content fade-up">
+      <h2>A practice shaped by curiosity and quiet devotion</h2>
+      <p>
+        Welcome to my online gallery. I'm Anuradha, a visual artist with a long-standing passion
+        for watercolor painting. For many years, I focused exclusively on watercolors,
+        exploring the unpredictable fluidity and spontaneity that the medium offers.
+      </p>
+      <p>
+        Although I had been sewing small projects before 2025, I was introduced to the rhythm, geometry, and interplay of pattern, texture, and color
+        that quilting allows, and it has become my current artistic focus. My latest quilting work
+        is showcased below along with some short excursions into other sewing projects.
+      </p>
+      <p>
+        My artistic journey has always unfolded through themes that shift with the seasons and
+        stages of life. I maintain a daily creative practice that keeps my skills and ideas
+        evolving. Many of my earlier works emerged from what I call "delayed urban sketches" —
+        cityscapes reimagined from photographs after the moment has passed.
+      </p>
+      <p>
+        I welcome commission inquiries and enjoy collaborating on custom pieces. Follow my
+        evolving journey here and on Instagram.
+      </p>
+    </div>
+  </section>
+
+  <div class="ornament">· · ·</div>
+
+  <!-- SERIES / WORK -->
+  <section class="series" id="work">
+    <div class="series-header">
+      <h2>Selected Works</h2>
+      <span>Ongoing practice</span>
+    </div>
+    <div class="series-grid">
+
+      <div class="series-card fade-up">
+        <div class="series-img">
+          <!-- Replace with: src="images/quilting.jpg" -->
+          <img src="images/quilting.jpg" alt="Quilting" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'"/>
+          <div class="series-img-placeholder">
+            <svg viewBox="0 0 48 48"><rect x="4" y="8" width="40" height="32" rx="2"/><circle cx="17" cy="20" r="4"/><path d="M4 32 l10-8 8 6 8-10 14 12"/></svg>
+          </div>
+        </div>
+        <h3>Quilting</h3>
+        <p>Geometry, rhythm, and the interplay of pattern and color</p>
+      </div>
+
+      <div class="series-card fade-up" style="transition-delay: 0.15s">
+        <div class="series-img series-img--landscape">
+          <img src="images/portraits.jpg" alt="Portraits" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'"/>
+          <div class="series-img-placeholder">
+            <svg viewBox="0 0 48 48"><rect x="4" y="8" width="40" height="32" rx="2"/><circle cx="17" cy="20" r="4"/><path d="M4 32 l10-8 8 6 8-10 14 12"/></svg>
+          </div>
+        </div>
+        <h3>Portraits</h3>
+        <p>The essence of friends and family captured in watercolor</p>
+      </div>
+
+      <div class="series-card fade-up" style="transition-delay: 0.3s">
+        <div class="series-img series-img--landscape">
+          <img src="images/bananas.jpg" alt="Garden" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'"/>
+          <div class="series-img-placeholder">
+            <svg viewBox="0 0 48 48"><rect x="4" y="8" width="40" height="32" rx="2"/><circle cx="17" cy="20" r="4"/><path d="M4 32 l10-8 8 6 8-10 14 12"/></svg>
+          </div>
+        </div>
+        <h3>Gardening</h3>
+        <p>Paintings of summer bounty</p>
+      </div>
+
+      <div class="series-card fade-up" style="transition-delay: 0.45s">
+        <div class="series-img">
+          <img src="images/landscapes.jpg" alt="Landscapes" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'"/>
+          <div class="series-img-placeholder">
+            <svg viewBox="0 0 48 48"><rect x="4" y="8" width="40" height="32" rx="2"/><circle cx="17" cy="20" r="4"/><path d="M4 32 l10-8 8 6 8-10 14 12"/></svg>
+          </div>
+        </div>
+        <h3>Landscapes</h3>
+        <p>Urban and rural sketches — beauty in both environments</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SHOWS -->
+  <section id="shows">
+    <div class="shows">
+      <div class="shows-header fade-up">
+        <h2>Juried Exhibitions</h2>
+      </div>
+      <div class="shows-list">
+
+        <div class="show-item fade-up">
+          <span class="show-year">2026</span>
+          <span class="show-name">Leftovers for Dinner</span>
+          <span class="show-venue">Gladwyne Library Arts &amp; Crafts Show</span>
+        </div>
+        <div class="show-item fade-up">
+          <span class="show-year">2025</span>
+          <span class="show-name">Windflowers</span>
+          <span class="show-venue">Main Line Art Center Members Exhibition</span>
+        </div>
+        <div class="show-item fade-up">
+          <span class="show-year">2018</span>
+          <span class="show-name">Various works</span>
+          <span class="show-venue">Philadelphia Water Color Society Board Show</span>
+        </div>
+        <div class="show-item fade-up">
+          <span class="show-year">2016</span>
+          <span class="show-name">Working Women</span>
+          <span class="show-venue">Immersed, Gray Gallery Philadelphia</span>
+        </div>
+        <div class="show-item fade-up">
+          <span class="show-year">2016</span>
+          <span class="show-name">Chihuly's Lilies</span>
+          <span class="show-venue">Philadelphia Water Color Society Members Exhibition</span>
+        </div>
+        <div class="show-item fade-up">
+          <span class="show-year">2015</span>
+          <span class="show-name">Dan Dan Noodles</span>
+          <span class="show-venue">Main Line Art Center Spring Gala Exhibition</span>
+        </div>
+        <div class="show-item fade-up">
+          <span class="show-year">2014–15</span>
+          <span class="show-name">Rehoboth Beach</span>
+          <span class="show-venue">Pennsylvania Watercolor Society 35th International</span>
+        </div>
+        <div class="show-item fade-up">
+          <span class="show-year">2014</span>
+          <span class="show-name">Enchanted</span>
+          <span class="show-venue">Philadelphia Water Color Society Members Exhibition</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SUBSTACK -->
+  <section class="substack-band" id="journal">
+    <div class="substack-band-left fade-up">
+      <h2>Follow the<br>Creative Journey</h2>
+      <p>
+        Behind every painting and quilt is a story — of process, inspiration,
+        and the quiet discoveries that come from a daily practice.
+        The SeventyFour Art journal on Substack is where those stories live.
+      </p>
+    </div>
+    <div class="substack-band-right fade-up">
+      <p>Essays · Process notes<br>New work · Show updates</p>
+      <a href="https://seventyfourart.substack.com" target="_blank" class="substack-btn">Read on Substack</a>
+    </div>
+  </section>
+
+  <!-- INSTAGRAM -->
+  <section class="instagram" id="instagram">
+    <div class="instagram-header fade-up">
+      <h2>On Instagram</h2>
+      <!-- Replace # with your actual Instagram URL -->
+      <a href="https://www.instagram.com" target="_blank" class="instagram-handle">@seventyfourart ↗</a>
+    </div>
+
+    <!-- Behold auto-feed -->
+    <div class="behold-container fade-up">
+
+      <!--
+        ─────────────────────────────────────────────────
+        HOW TO ACTIVATE YOUR INSTAGRAM FEED:
+
+        1. Go to https://behold.so and create a free account
+        2. Connect your Instagram account
+        3. Create a new feed widget (choose grid layout)
+        4. Click "Get embed code"
+        5. DELETE the placeholder div below and paste
+           your Behold embed code in its place
+        ─────────────────────────────────────────────────
+      -->
+
+     <behold-widget feed-id="ybsxn5jWPVMc2kSl25Dg"></behold-widget>
+<script>
+  (() => {
+    const d=document,s=d.createElement("script");s.type="module";
+    s.src="https://w.behold.so/widget.js";d.head.append(s);
+  })();
+</script>
+
+    </div>
+
+    <!-- Manual image grid (hidden — using Behold instead) -->
+    <div class="instagram-grid" style="display:none">
+
+      <a class="ig-post fade-up" href="https://www.instagram.com" target="_blank" style="transition-delay:0s">
+        <img src="instagram/post-1.jpg" alt="Instagram post" onerror="this.style.display='none'"/>
+        <div class="ig-post-overlay">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none"/></svg>
+        </div>
+        <div class="ig-placeholder">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/></svg>
+          <span>post-1.jpg</span>
+        </div>
+      </a>
+
+      <a class="ig-post fade-up" href="https://www.instagram.com" target="_blank" style="transition-delay:0.08s">
+        <img src="instagram/post-2.jpg" alt="Instagram post" onerror="this.style.display='none'"/>
+        <div class="ig-post-overlay">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none"/></svg>
+        </div>
+        <div class="ig-placeholder">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/></svg>
+          <span>post-2.jpg</span>
+        </div>
+      </a>
+
+      <a class="ig-post fade-up" href="https://www.instagram.com" target="_blank" style="transition-delay:0.16s">
+        <img src="instagram/post-3.jpg" alt="Instagram post" onerror="this.style.display='none'"/>
+        <div class="ig-post-overlay">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none"/></svg>
+        </div>
+        <div class="ig-placeholder">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/></svg>
+          <span>post-3.jpg</span>
+        </div>
+      </a>
+
+      <a class="ig-post fade-up" href="https://www.instagram.com" target="_blank" style="transition-delay:0.24s">
+        <img src="instagram/post-4.jpg" alt="Instagram post" onerror="this.style.display='none'"/>
+        <div class="ig-post-overlay">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none"/></svg>
+        </div>
+        <div class="ig-placeholder">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/></svg>
+          <span>post-4.jpg</span>
+        </div>
+      </a>
+
+      <a class="ig-post fade-up" href="https://www.instagram.com" target="_blank" style="transition-delay:0.32s">
+        <img src="instagram/post-5.jpg" alt="Instagram post" onerror="this.style.display='none'"/>
+        <div class="ig-post-overlay">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none"/></svg>
+        </div>
+        <div class="ig-placeholder">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/></svg>
+          <span>post-5.jpg</span>
+        </div>
+      </a>
+
+      <a class="ig-post fade-up" href="https://www.instagram.com" target="_blank" style="transition-delay:0.4s">
+        <img src="instagram/post-6.jpg" alt="Instagram post" onerror="this.style.display='none'"/>
+        <div class="ig-post-overlay">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none"/></svg>
+        </div>
+        <div class="ig-placeholder">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/></svg>
+          <span>post-6.jpg</span>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="instagram-cta fade-up">
+      <a href="https://www.instagram.com" target="_blank">Follow the journey on Instagram</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-left">
+      <h2>Gallery<br>Seventy Four</h2>
+      <p>Commission inquiries welcome</p>
+    </div>
+    <div class="footer-right">
+      <a href="mailto:seventyfourart@gmail.com">seventyfourart@gmail.com</a>
+      <a href="https://payhip.com/SeventyFourArt" target="_blank">Shop original works</a>
+      <a href="https://seventyfourart.substack.com" target="_blank">Substack journal</a>
+      <a href="https://www.instagram.com" target="_blank">Instagram</a>
+      <a href="#">Gladwyne, PA, USA</a>
+    </div>
+  </footer>
+  <div class="footer-bottom">
+    <p>© 2026 Gallery Seventy Four · Anuradha</p>
+    <p>All artworks are original works</p>
+  </div>
+
+  <script>
+    // Fade-up on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(el => {
+        if (el.isIntersecting) {
+          el.target.classList.add('visible');
+          observer.unobserve(el.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // Hide hero placeholder if image loads
+    const heroImg = document.getElementById('heroImg');
+    const heroPlaceholder = document.getElementById('heroPlaceholder');
+    if (heroImg) {
+      heroImg.addEventListener('load', () => {
+        if (heroPlaceholder) heroPlaceholder.style.display = 'none';
+      });
+    }
+  </script>
+
+</body>
+</html>
