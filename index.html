@@ -785,26 +785,26 @@
       <p class="hero-subtitle">Watercolor · Quilting · Urban Sketches</p>
       <a href="#about" class="hero-cta">Discover the work</a>
     </div>
-    <div class="hero-image">
-      <src="images/hero.jpg">
-      <img
-        id="heroImg"
-        src="images/hero.jpg"
-        alt="Anuradha — Gallery Seventy Four"
-        onload="this.classList.add('loaded')"
-        onerror="this.style.display='none'"
-      />
-         <figcaption style="
-        position: absolute;
-        bottom: 1rem;
-        left: 0; right: 0;
+    <div style="display: flex; flex-direction: column;">
+      <div class="hero-image">
+        <img
+          id="heroImg"
+          src="images/hero.jpg"
+          alt="Anuradha — Gallery Seventy Four"
+          onload="this.classList.add('loaded')"
+          onerror="this.style.display='none'"
+        />
+      </div>
+      <figcaption style="
         text-align: center;
         font-family: 'Cormorant Garamond', Georgia, serif;
         font-size: 0.85rem;
         font-style: italic;
-        color: rgba(245,240,232,0.75);
+        color: var(--muted);
         letter-spacing: 0.05em;
-        pointer-events: none;
+        padding: 0.75rem 1rem;
+        background: var(--light);
+        border-top: 1px solid rgba(200,169,110,0.2);
       ">Grass carrier from the "Working Women" series '16</figcaption>
     </div>
   </section>
